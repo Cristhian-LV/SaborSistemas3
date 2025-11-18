@@ -32,7 +32,9 @@ public class ReporteController {
         String fechaI = txtFechaI.getValue().format(fechaFmt);
         String fechaF = txtFechaF.getValue().format(fechaFmt);
         try {
+            System.out.println("1111111111");
             jasperPrint = daoV.runReportVentas(fechaI, fechaF);
+            System.out.println("2222222222");
             JRViewerFX viewer = new JRViewerFX(jasperPrint);
             paneRepo.getChildren().clear();
             paneRepo.getChildren().add(viewer);
