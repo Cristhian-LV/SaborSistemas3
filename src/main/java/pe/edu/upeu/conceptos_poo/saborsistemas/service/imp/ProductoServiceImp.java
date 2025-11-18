@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 import pe.edu.upeu.conceptos_poo.saborsistemas.dto.ModeloDataAutocomplet;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Producto;
 import pe.edu.upeu.conceptos_poo.saborsistemas.repository.IProductoRepository;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.ProductoIService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.ProductoInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductoImp implements ProductoIService {
-    private static final Logger logger = LoggerFactory.getLogger(ProductoImp.class);
+public class ProductoServiceImp implements ProductoInterface {
+    private static final Logger logger = LoggerFactory.getLogger(ProductoServiceImp.class);
     @Autowired
     IProductoRepository P_Repositorio;
     @Override
@@ -40,6 +40,11 @@ public class ProductoImp implements ProductoIService {
     @Override
     public Producto findProductoById(Long id) {
         return P_Repositorio.findById(id).orElse(null);
+    }
+
+    @Override
+    public long count() {
+        return P_Repositorio.count();
     }
 
     @Override

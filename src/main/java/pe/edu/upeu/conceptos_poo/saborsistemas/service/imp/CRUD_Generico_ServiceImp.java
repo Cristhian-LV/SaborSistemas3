@@ -2,11 +2,11 @@ package pe.edu.upeu.conceptos_poo.saborsistemas.service.imp;
 
 import pe.edu.upeu.conceptos_poo.saborsistemas.Exeption.ModelNotFoundException;
 import pe.edu.upeu.conceptos_poo.saborsistemas.repository.ICrudGenericoRepository;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.CRUD_GenericoSefvice_Interface;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.CRUD_Generico_Interface;
 
 import java.util.List;
 
-public abstract class CRUD_GenericoServiceImp <T,ID> implements CRUD_GenericoSefvice_Interface<T,ID> {
+public abstract class CRUD_Generico_ServiceImp<T,ID> implements CRUD_Generico_Interface<T,ID> {
 
     protected abstract ICrudGenericoRepository<T, ID> getRepository();
     @Override
@@ -36,5 +36,10 @@ public abstract class CRUD_GenericoServiceImp <T,ID> implements CRUD_GenericoSef
             throw new ModelNotFoundException("ID NOT EXIST:"+id);
         }
         getRepository().deleteById(id);
+    }
+
+    @Override
+    public long count() {
+        return getRepository().count();
     }
 }

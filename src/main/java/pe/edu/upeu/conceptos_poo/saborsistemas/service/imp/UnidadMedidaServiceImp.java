@@ -5,14 +5,14 @@ import org.springframework.stereotype.Service;
 import pe.edu.upeu.conceptos_poo.saborsistemas.dto.ComboBoxOption;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.UnidadMedida;
 import pe.edu.upeu.conceptos_poo.saborsistemas.repository.IUnidadMedidaRepository;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.UnidadMedidaService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.UnidadMedidaInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UnidadMedidaImp extends CRUD_GenericoServiceImp<UnidadMedida, Long> implements UnidadMedidaService {
+public class UnidadMedidaServiceImp extends CRUD_Generico_ServiceImp<UnidadMedida, Long> implements UnidadMedidaInterface {
     private final IUnidadMedidaRepository unidadmedidaRepository;
     @Override
     protected IUnidadMedidaRepository getRepository() {

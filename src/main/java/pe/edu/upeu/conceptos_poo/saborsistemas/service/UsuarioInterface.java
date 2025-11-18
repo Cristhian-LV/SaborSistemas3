@@ -2,7 +2,7 @@ package pe.edu.upeu.conceptos_poo.saborsistemas.service;
 
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Usuario;
 
-public interface UsuarioService extends CRUD_GenericoSefvice_Interface<Usuario, Long>{
+public interface UsuarioInterface extends CRUD_Generico_Interface<Usuario, Long> {
     Usuario loginUsuario(String user, String clave);
     // --- NUEVO MÉTODO ---
     /**

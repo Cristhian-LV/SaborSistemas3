@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClienteImp extends CRUD_GenericoServiceImp<Cliente,String> implements ClienteService {
+public class ClienteImp extends CRUD_Generico_ServiceImp<Cliente,String> implements ClienteService {
     private final IClienteRepository clienteRepository;
 
     Logger logger= LoggerFactory.getLogger(ClienteService.class);

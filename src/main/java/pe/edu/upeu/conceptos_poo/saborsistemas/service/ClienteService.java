@@ -5,6 +5,6 @@ import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Cliente;
 
 import java.util.List;
 
-public interface ClienteService extends CRUD_GenericoSefvice_Interface<Cliente, String> {
+public interface ClienteService extends CRUD_Generico_Interface<Cliente, String> {
     List<ModeloDataAutocomplet> listAutoCompletCliente();
 }

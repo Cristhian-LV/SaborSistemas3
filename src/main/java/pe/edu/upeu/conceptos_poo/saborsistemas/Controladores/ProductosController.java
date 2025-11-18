@@ -12,9 +12,9 @@ import pe.edu.upeu.conceptos_poo.saborsistemas.dto.ComboBoxOption;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Categoria;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Producto;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.UnidadMedida;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.CategoriaIService;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.ProductoIService;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.UnidadMedidaService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.CategoriaInterface;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.ProductoInterface;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.UnidadMedidaInterface;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,9 +34,9 @@ public class ProductosController {
     @FXML private Label lblMensajeProducto;
 
     @Autowired
-    private ProductoIService productoService;
-    @Autowired private CategoriaIService categoriaService;
-    @Autowired private UnidadMedidaService unidadMedidaService;
+    private ProductoInterface productoService;
+    @Autowired private CategoriaInterface categoriaService;
+    @Autowired private UnidadMedidaInterface unidadMedidaInterface;
 
     private ObservableList<Producto> listaProductosObservable;
     private Long idProductoEditando = null;
@@ -66,7 +66,7 @@ public class ProductosController {
     private void cargarUnidadesMedida() {
         try {
             // Usando el método que ya tenías en UnidadMedidaImp
-            List<ComboBoxOption> opciones = unidadMedidaService.listarCombobox();
+            List<ComboBoxOption> opciones = unidadMedidaInterface.listarCombobox();
             cbxUnidadMedidaProducto.setItems(FXCollections.observableArrayList(opciones));
         } catch (Exception e) {
             mostrarMensajeProducto("Error al cargar unidades de medida: " + e.getMessage(), true);
@@ -164,7 +164,7 @@ public class ProductosController {
             producto.setStok(stock);
 
             Categoria categoria = categoriaService.findById(Long.parseLong(categoriaSeleccionada.getKey()));
-            UnidadMedida unidad = unidadMedidaService.findById(Long.parseLong(unidadSeleccionada.getKey()));
+            UnidadMedida unidad = unidadMedidaInterface.findById(Long.parseLong(unidadSeleccionada.getKey()));
 
             if (categoria == null || unidad == null) {
                 mostrarMensajeProducto("Error: Categoría o Unidad de Medida no válidas.", true);

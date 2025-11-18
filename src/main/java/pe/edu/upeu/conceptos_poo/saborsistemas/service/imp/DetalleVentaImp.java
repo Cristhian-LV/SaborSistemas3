@@ -9,7 +9,7 @@ import pe.edu.upeu.conceptos_poo.saborsistemas.service.DetalleVentaService;
 
 @Service
 @RequiredArgsConstructor
-public class DetalleVentaImp extends CRUD_GenericoServiceImp<DetalleVenta, Long> implements DetalleVentaService {
+public class DetalleVentaImp extends CRUD_Generico_ServiceImp<DetalleVenta, Long> implements DetalleVentaService {
 
     private final IDetalleVentaRepository detalleVentaRepository;
 

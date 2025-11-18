@@ -50,7 +50,7 @@ public class VentaController {
     @Autowired
     IClienteService cs;
     @Autowired
-    ProductoIService ps;
+    ProductoInterface ps;
     @Autowired
     ConsultaDNI cDni;
     @Autowired

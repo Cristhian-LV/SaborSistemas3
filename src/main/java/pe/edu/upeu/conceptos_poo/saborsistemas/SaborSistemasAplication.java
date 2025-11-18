@@ -10,10 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import pe.edu.upeu.conceptos_poo.saborsistemas.components.StageManager;
+import pe.edu.upeu.conceptos_poo.saborsistemas.config.DataInitializer;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.*;
 
 @SpringBootApplication
 public class SaborSistemasAplication extends Application {
-    private ConfigurableApplicationContext configurableApplicationContext;
+    private ConfigurableApplicationContext context;
     private Parent parent;
     public static void main(String[] args) {
         launch(args);
@@ -22,10 +24,25 @@ public class SaborSistemasAplication extends Application {
     public void init() throws Exception {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(SaborSistemasAplication.class);
         builder.application().setWebApplicationType(WebApplicationType.NONE);
-        configurableApplicationContext = builder.run(getParameters().getRaw().toArray(new String[0]));
+        context = builder.run(getParameters().getRaw().toArray(new String[0]));
+
+        // --- INICIALIZACIÓN DE DATOS ---
+        // 2. Obtener la implementación del servicio (ProductoServiceImp) a través de su Interfaz.
+        // Spring gestiona la inyección y devuelve la instancia Singleton.
+        ProductoInterface productoInterface = context.getBean(ProductoInterface.class);
+        CategoriaInterface categoriaInterface = context.getBean(CategoriaInterface.class);
+        UsuarioInterface usuarioInterface = context.getBean(UsuarioInterface.class);
+        PerfilInterface perfilInterface =context.getBean(PerfilInterface.class);
+        UnidadMedidaInterface unidadMedidaInterface =context.getBean(UnidadMedidaInterface.class);
+        // 3. Crear el DataInitializer inyectando el Service por Constructor.
+        // Esto mantiene el diseño limpio (final) en DataInitializer.
+        DataInitializer initializer = new DataInitializer(
+                productoInterface,categoriaInterface,usuarioInterface,perfilInterface,unidadMedidaInterface);
+        // 4. Ejecutar la inicialización
+        initializer.initializeData();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-        fxmlLoader.setControllerFactory(configurableApplicationContext::getBean);
+        fxmlLoader.setControllerFactory(context::getBean);
         parent= fxmlLoader.load();
     }
     @Override
@@ -37,18 +54,4 @@ public class SaborSistemasAplication extends Application {
         stage.show();
 
     }
-
-    //@Bean
-    //public CommandLineRunner createEncryptedPassword(PasswordEncoder passwordEncoder) {
-        //return args -> {
-            //String contrasenaPlana = "admin123"; // La contraseña que quieres usar
-            //String contrasenaEncriptada = passwordEncoder.encode(contrasenaPlana);
-
-            //System.out.println("******************************************************************");
-            //System.out.println("COPIA ESTA CONTRASEÑA ENCRIPTADA PARA LA BASE DE DATOS:");
-            //System.out.println(contrasenaEncriptada);
-            //System.out.println("Contraseña plana original: " + contrasenaPlana);
-            //System.out.println("******************************************************************");
-        //};
-    //}
 }

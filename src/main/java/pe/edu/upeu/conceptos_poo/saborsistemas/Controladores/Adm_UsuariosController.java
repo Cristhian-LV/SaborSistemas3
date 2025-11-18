@@ -12,8 +12,8 @@ import pe.edu.upeu.conceptos_poo.saborsistemas.components.TableViewHelper;
 import pe.edu.upeu.conceptos_poo.saborsistemas.dto.ComboBoxOption;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Perfil;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Usuario;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.PerfilService;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.UsuarioService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.PerfilInterface;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.UsuarioInterface;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,10 +32,10 @@ public class Adm_UsuariosController {
     @FXML private Label lblMensajeUsuario;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioInterface usuarioInterface;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired private PerfilService perfilService;
+    @Autowired private PerfilInterface perfilInterface;
 
     private ObservableList<Usuario> listaUsuariosObservable;
     private Long idUsuarioEditando = null;
@@ -58,7 +58,7 @@ public class Adm_UsuariosController {
 
     private void cargarPerfiles() {
         try {
-            List<Perfil> perfiles = perfilService.findAll();
+            List<Perfil> perfiles = perfilInterface.findAll();
             List<ComboBoxOption> opcionesPerfil = perfiles.stream()
                     .map(p -> new ComboBoxOption(String.valueOf(p.getId_perfil()), p.getCorreo())) // Asume que 'correo' es el nombre a mostrar
                     .collect(Collectors.toList());
@@ -83,7 +83,7 @@ public class Adm_UsuariosController {
 
     private void listarUsuarios() {
         try {
-            listaUsuariosObservable = FXCollections.observableArrayList(usuarioService.findAll());
+            listaUsuariosObservable = FXCollections.observableArrayList(usuarioInterface.findAll());
             tableViewUsuarios.setItems(listaUsuariosObservable);
         } catch (Exception e) {
             mostrarMensaje("Error al listar usuarios: " + e.getMessage(), true);
@@ -125,7 +125,7 @@ public class Adm_UsuariosController {
 
 
         try {
-            Usuario usuario = (idUsuarioEditando != null) ? usuarioService.findById(idUsuarioEditando) : new Usuario();
+            Usuario usuario = (idUsuarioEditando != null) ? usuarioInterface.findById(idUsuarioEditando) : new Usuario();
             if (usuario == null && idUsuarioEditando != null) {
                 mostrarMensaje("Error: No se encontró el usuario a editar.", true);
                 return;
@@ -134,7 +134,7 @@ public class Adm_UsuariosController {
 
             // Verificar si el username (correo) ya existe SI es un usuario nuevo O si se cambió el correo
             if (idUsuarioEditando == null || !usuario.getNombre_Usuario().equals(username)) {
-                if (usuarioService.existeUsuario(username)) {
+                if (usuarioInterface.existeUsuario(username)) {
                     mostrarMensaje("El nombre de usuario (correo) ya está en uso.", true);
                     return;
                 }
@@ -150,7 +150,7 @@ public class Adm_UsuariosController {
                 mostrarMensaje("La contraseña es obligatoria para nuevos usuarios.", true);
                 return;
             }
-            Perfil perfil = perfilService.findById(Long.parseLong(perfilSeleccionado.getKey()));
+            Perfil perfil = perfilInterface.findById(Long.parseLong(perfilSeleccionado.getKey()));
             if (perfil == null) {
                 mostrarMensaje("Error: Perfil seleccionado no válido.", true);
                 return;
@@ -158,11 +158,11 @@ public class Adm_UsuariosController {
             usuario.setIdPerfil(perfil);
 
             if (idUsuarioEditando == null) {
-                usuarioService.save(usuario);
+                usuarioInterface.save(usuario);
                 mostrarMensaje("Usuario creado exitosamente.", false);
             } else {
                 usuario.setIdUsuario(idUsuarioEditando); // Asegurarse de tener el ID para actualizar
-                usuarioService.update(idUsuarioEditando, usuario); // O solo save si tu save maneja update
+                usuarioInterface.update(idUsuarioEditando, usuario); // O solo save si tu save maneja update
                 mostrarMensaje("Usuario actualizado exitosamente.", false);
             }
 
@@ -201,7 +201,7 @@ public class Adm_UsuariosController {
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
                 try {
-                    usuarioService.delete(usuario.getIdUsuario());
+                    usuarioInterface.delete(usuario.getIdUsuario());
                     mostrarMensaje("Usuario eliminado exitosamente.", false);
                     listarUsuarios(); // Refrescar la tabla
                 } catch (Exception e) {

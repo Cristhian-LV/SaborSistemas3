@@ -16,8 +16,7 @@ import org.springframework.stereotype.Controller;
 import pe.edu.upeu.conceptos_poo.saborsistemas.components.StageManager;
 import pe.edu.upeu.conceptos_poo.saborsistemas.dto.SessionManager;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Usuario;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.IUsuarioService;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.UsuarioService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.UsuarioInterface;
 
 import java.io.IOException;
 
@@ -42,7 +41,7 @@ public class LoginController {
 
     // --- Servicios de Spring ---
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioInterface usuarioInterface;
 
     @Autowired
     private ConfigurableApplicationContext applicationContext;
@@ -102,7 +101,7 @@ public class LoginController {
         }
 
         try {
-            Usuario usuario = usuarioService.loginUsuario(username, password);
+            Usuario usuario = usuarioInterface.loginUsuario(username, password);
 
             if (usuario != null) {
                 errorMessageLabel.setText("¡Login exitoso! Bienvenido.");

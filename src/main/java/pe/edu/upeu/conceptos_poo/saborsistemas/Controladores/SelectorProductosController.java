@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Producto; // Importar el modelo real
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.ProductoIService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.ProductoInterface;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class SelectorProductosController {
 
     // Inyectar el servicio de productos
     @Autowired
-    private ProductoIService productoService;
+    private ProductoInterface productoService;
 
     // Lista observable para la tabla
     private final ObservableList<Producto> lista = FXCollections.observableArrayList();

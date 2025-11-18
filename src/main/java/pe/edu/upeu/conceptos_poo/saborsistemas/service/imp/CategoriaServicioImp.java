@@ -7,14 +7,14 @@ import pe.edu.upeu.conceptos_poo.saborsistemas.dto.ComboBoxOption;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Categoria;
 import pe.edu.upeu.conceptos_poo.saborsistemas.repository.ICategoriaRepository;
 import pe.edu.upeu.conceptos_poo.saborsistemas.repository.ICrudGenericoRepository;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.CategoriaIService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.CategoriaInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class CategoriaImp extends CRUD_GenericoServiceImp<Categoria, Long> implements CategoriaIService {
+public class CategoriaServicioImp extends CRUD_Generico_ServiceImp<Categoria, Long> implements CategoriaInterface {
 
     private final ICategoriaRepository categoriaRepository;
 

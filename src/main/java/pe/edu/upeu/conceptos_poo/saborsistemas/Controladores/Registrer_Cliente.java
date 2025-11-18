@@ -15,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Perfil;
 import pe.edu.upeu.conceptos_poo.saborsistemas.modelos.Usuario;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.PerfilService;
-import pe.edu.upeu.conceptos_poo.saborsistemas.service.UsuarioService;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.PerfilInterface;
+import pe.edu.upeu.conceptos_poo.saborsistemas.service.UsuarioInterface;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -32,9 +32,9 @@ public class Registrer_Cliente {
     @FXML private Label messageLabel;
     @FXML private Button goToLoginButton;
 
-    @Autowired private UsuarioService usuarioService;
+    @Autowired private UsuarioInterface usuarioInterface;
     @Autowired private ConfigurableApplicationContext applicationContext;
-    @Autowired private PerfilService perfilService;
+    @Autowired private PerfilInterface perfilInterface;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -101,13 +101,13 @@ public class Registrer_Cliente {
 
         try {
             // Verifica si el usuario exixte o no con el mismo nobre
-            if (usuarioService.existeUsuario(email)) {
+            if (usuarioInterface.existeUsuario(email)) {
                 messageLabel.setText("El nombre de usuario '" + email + "' ya está en uso. Por favor, elija otro.");
                 return; // Detiene el registro si el usuario ya existe
             }
 
 
-            Perfil perfilCliente = perfilService.findById(ID_PERFIL_CLIENTE);
+            Perfil perfilCliente = perfilInterface.findById(ID_PERFIL_CLIENTE);
             if (perfilCliente == null) {
                 messageLabel.setText("Error interno: No se encontró el perfil de cliente configurado.");
                 System.err.println("CRÍTICO: No se encontró el Perfil con ID " + ID_PERFIL_CLIENTE + " en la base de datos.");
@@ -120,7 +120,7 @@ public class Registrer_Cliente {
             nuevoUsuario.setRol(ROL_CLIENTE);
             nuevoUsuario.setIdPerfil(perfilCliente);
 
-            usuarioService.save(nuevoUsuario);
+            usuarioInterface.save(nuevoUsuario);
 
             //Para el inicio de sesion
             messageLabel.setText("¡Registro exitoso! Ahora puedes iniciar sesión.");

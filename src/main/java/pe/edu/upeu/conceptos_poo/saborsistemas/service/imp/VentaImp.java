@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional; // Importante para operaciones con rel
 
 @Service
 @RequiredArgsConstructor
-public class VentaImp extends CRUD_GenericoServiceImp<Venta, Long> implements VentaService {
+public class VentaImp extends CRUD_Generico_ServiceImp<Venta, Long> implements VentaService {
 
     private final IVentaRepository ventaRepository;
 
